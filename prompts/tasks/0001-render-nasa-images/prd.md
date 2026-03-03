@@ -11,7 +11,7 @@ Value is created by offering a simple, intentional interaction: nothing is rende
 - Enable users to load APOD content in two explicit modes: daily image and random image.
 - Keep initial screen empty of APOD content until user action is taken.
 - Ensure users receive friendly feedback when data cannot be shown.
-- Return only display-relevant image metadata to the frontend.
+- Return only display-relevant image metadata plus the image source required for rendering.
 
 Success criteria:
 - Users can load both modes from the UI.
@@ -57,7 +57,7 @@ Functional requirements:
 Functional requirements:
 5. The backend must expose endpoint(s) consumable by the existing frontend for both APOD modes.
 6. The backend must use the configured NASA APOD API key server-side and must not require frontend direct NASA calls.
-7. Backend responses for successful requests must include only: `title`, `date`, `explanation`, and `copyright` when present.
+7. Backend responses for successful requests must include: `title`, `date`, `explanation`, optional `copyright`, and `imageUrl` as a transport-only field for rendering (not displayed as metadata).
 8. Backend must only return data for entries where `media_type=image`.
 9. If NASA returns content that is not `media_type=image`, backend must treat it as non-displayable within this scope and return a friendly failure path for frontend handling.
 
