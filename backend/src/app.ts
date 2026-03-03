@@ -1,5 +1,7 @@
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
+import { getDailyApod } from './routes/getDailyApod';
+import { getRandomApod } from './routes/getRandomApod';
 
 export const createApp = () => {
   const app = express();
@@ -21,6 +23,9 @@ export const createApp = () => {
       next(error);
     }
   });
+
+  app.get('/api/apod/daily', getDailyApod);
+  app.get('/api/apod/random', getRandomApod);
 
   app.use((_req: Request, res: Response) => {
     res.status(404).json({
