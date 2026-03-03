@@ -16,11 +16,11 @@ Update the main frontend UI to provide exactly two APOD actions, keep the initia
 
 ## Subtasks
 
-- [ ] 4.1 Update `frontend/src/App.tsx` to handle idle/loading/success/error rendering paths.
-- [ ] 4.2 Render the two required action buttons and connect them to request layer methods.
-- [ ] 4.3 Render success state with image and approved metadata fields.
-- [ ] 4.4 Render error state with exact user-facing messages mapped from backend error codes.
-- [ ] 4.5 Add component tests for initial, success, and failure paths across both actions.
+- [x] 4.1 Update `frontend/src/App.tsx` to handle idle/loading/success/error rendering paths.
+- [x] 4.2 Render the two required action buttons and connect them to request layer methods.
+- [x] 4.3 Render success state with image and approved metadata fields.
+- [x] 4.4 Render error state with exact user-facing messages mapped from backend error codes.
+- [x] 4.5 Add component tests for initial, success, and failure paths across both actions.
 
 ## Implementation Details
 
@@ -39,8 +39,8 @@ Reference `tech-spec.md` sections:
 
 ## Task Tests
 
-- [ ] Unit tests
-- [ ] Integration tests
+- [x] Unit tests
+- [x] Integration tests
 
 <critical>ALWAYS CREATE AND RUN TASK TESTS BEFORE CONSIDERING IT FINISHED</critical>
 

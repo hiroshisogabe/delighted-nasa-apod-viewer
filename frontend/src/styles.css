@@ -1,6 +1,132 @@
+:root {
+  font-family: "Trebuchet MS", "Avenir Next", sans-serif;
+  color: #10212f;
+  background: radial-gradient(circle at 20% 20%, #f9f4de 0%, #d8e8fb 45%, #bfd8de 100%);
+}
+
 html,
 body,
 #root {
   margin: 0;
   min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.viewer {
+  width: min(780px, 100%);
+  border-radius: 24px;
+  padding: 1.75rem;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 24px 60px rgba(16, 33, 47, 0.15);
+  backdrop-filter: blur(5px);
+}
+
+.viewer-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  letter-spacing: 0.04em;
+}
+
+.viewer-subtitle {
+  margin: 0.6rem 0 1.2rem;
+  color: #355166;
+}
+
+.viewer-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.viewer-actions button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  background: linear-gradient(120deg, #113050, #295f89);
+  color: #f3fbff;
+  cursor: pointer;
+}
+
+.viewer-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.viewer-actions button:focus-visible {
+  outline: 3px solid #ffb703;
+  outline-offset: 2px;
+}
+
+.viewer-result {
+  margin-top: 1.2rem;
+}
+
+.apod-status {
+  margin: 0;
+  font-weight: 700;
+  color: #294c64;
+}
+
+.apod-error {
+  margin: 0;
+  font-weight: 700;
+  color: #8a1f2d;
+}
+
+.apod-card {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.apod-title {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.apod-date {
+  margin: 0;
+  color: #355166;
+  font-weight: 600;
+}
+
+.apod-image {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #aac6d9;
+}
+
+.apod-explanation {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.apod-copyright {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #446175;
+}
+
+@media (max-width: 640px) {
+  .viewer {
+    padding: 1.2rem;
+    border-radius: 20px;
+  }
+
+  .viewer-actions {
+    grid-template-columns: 1fr;
+  }
 }
