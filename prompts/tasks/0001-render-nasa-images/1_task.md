@@ -16,11 +16,11 @@ Create typed backend services that call NASA APOD, validate image-only payloads,
 
 ## Subtasks
 
-- [ ] 1.1 Add `backend/src/types/apod.ts` with upstream and normalized backend contracts.
-- [ ] 1.2 Add `backend/src/services/fetchApodFromNasa.ts` with typed daily/random NASA requests.
-- [ ] 1.3 Add `backend/src/services/mapApodImageResponse.ts` for image-only normalization.
-- [ ] 1.4 Add `backend/src/services/classifyNasaFailure.ts` for stable error code mapping.
-- [ ] 1.5 Add service-level tests for mapper, fetch-mode behavior contracts, and failure classification.
+- [x] 1.1 Add `backend/src/types/apod.ts` with upstream and normalized backend contracts.
+- [x] 1.2 Add `backend/src/services/fetchApodFromNasa.ts` with typed daily/random NASA requests.
+- [x] 1.3 Add `backend/src/services/mapApodImageResponse.ts` for image-only normalization.
+- [x] 1.4 Add `backend/src/services/classifyNasaFailure.ts` for stable error code mapping.
+- [x] 1.5 Add service-level tests for mapper, fetch-mode behavior contracts, and failure classification.
 
 ## Implementation Details
 
@@ -41,8 +41,8 @@ Reference `tech-spec.md` sections:
 
 ## Task Tests
 
-- [ ] Unit tests
-- [ ] Integration tests
+- [x] Unit tests
+- [x] Integration tests
 
 <critical>ALWAYS CREATE AND RUN TASK TESTS BEFORE CONSIDERING IT FINISHED</critical>
 
