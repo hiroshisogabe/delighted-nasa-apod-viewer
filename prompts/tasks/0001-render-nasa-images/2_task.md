@@ -16,10 +16,10 @@ Implement and wire backend API routes for APOD daily and random flows using the 
 
 ## Subtasks
 
-- [ ] 2.1 Add `backend/src/routes/getDailyApod.ts` route handler.
-- [ ] 2.2 Add `backend/src/routes/getRandomApod.ts` route handler using `count=1` behavior via service.
-- [ ] 2.3 Wire both routes in `backend/src/app.ts` without breaking existing middleware flow.
-- [ ] 2.4 Extend `backend/src/app.test.ts` for success and failure contract coverage.
+- [x] 2.1 Add `backend/src/routes/getDailyApod.ts` route handler.
+- [x] 2.2 Add `backend/src/routes/getRandomApod.ts` route handler using `count=1` behavior via service.
+- [x] 2.3 Wire both routes in `backend/src/app.ts` without breaking existing middleware flow.
+- [x] 2.4 Extend `backend/src/app.test.ts` for success and failure contract coverage.
 
 ## Implementation Details
 
@@ -39,8 +39,8 @@ Reference `tech-spec.md` sections:
 
 ## Task Tests
 
-- [ ] Unit tests
-- [ ] Integration tests
+- [x] Unit tests
+- [x] Integration tests
 
 <critical>ALWAYS CREATE AND RUN TASK TESTS BEFORE CONSIDERING IT FINISHED</critical>
 

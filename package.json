@@ -1,0 +1,12 @@
+{
+  "name": "delighted-nasa-apod-viewer",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "e2e": "playwright test",
+    "e2e:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

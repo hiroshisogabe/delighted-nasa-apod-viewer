@@ -16,11 +16,11 @@ Add end-to-end coverage for the APOD user journeys in `./e2e/`, validating compl
 
 ## Subtasks
 
-- [ ] 5.1 Install/configure Playwright for the repository if not already configured.
-- [ ] 5.2 Add `e2e/apod-viewer.spec.ts` with daily and random success scenarios.
-- [ ] 5.3 Add failure scenarios for rate-limit and generic error messaging.
-- [ ] 5.4 Add lightweight test helper utilities and unit tests for helper behavior.
-- [ ] 5.5 Integrate E2E run instructions into project scripts/documentation as needed.
+- [x] 5.1 Install/configure Playwright for the repository if not already configured.
+- [x] 5.2 Add `e2e/apod-viewer.spec.ts` with daily and random success scenarios.
+- [x] 5.3 Add failure scenarios for rate-limit and generic error messaging.
+- [x] 5.4 Add lightweight test helper utilities and unit tests for helper behavior.
+- [x] 5.5 Integrate E2E run instructions into project scripts/documentation as needed.
 
 ## Implementation Details
 
@@ -38,8 +38,8 @@ Reference `tech-spec.md` sections:
 
 ## Task Tests
 
-- [ ] Unit tests
-- [ ] Integration tests
+- [x] Unit tests
+- [x] Integration tests
 
 <critical>ALWAYS CREATE AND RUN TASK TESTS BEFORE CONSIDERING IT FINISHED</critical>
 

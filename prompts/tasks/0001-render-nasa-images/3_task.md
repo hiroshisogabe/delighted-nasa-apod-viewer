@@ -16,10 +16,10 @@ Create typed frontend request functions and APOD UI state contracts to support e
 
 ## Subtasks
 
-- [ ] 3.1 Add `frontend/src/types/apod.ts` with typed result, error, and UI state models.
-- [ ] 3.2 Add `frontend/src/services/requestApod.ts` with daily/random request methods.
-- [ ] 3.3 Add tests validating request contract parsing and error mapping behavior.
-- [ ] 3.4 Add tests validating state transition rules for idle/loading/success/error flows.
+- [x] 3.1 Add `frontend/src/types/apod.ts` with typed result, error, and UI state models.
+- [x] 3.2 Add `frontend/src/services/requestApod.ts` with daily/random request methods.
+- [x] 3.3 Add tests validating request contract parsing and error mapping behavior.
+- [x] 3.4 Add tests validating state transition rules for idle/loading/success/error flows.
 
 ## Implementation Details
 
@@ -39,8 +39,8 @@ Reference `tech-spec.md` sections:
 
 ## Task Tests
 
-- [ ] Unit tests
-- [ ] Integration tests
+- [x] Unit tests
+- [x] Integration tests
 
 <critical>ALWAYS CREATE AND RUN TASK TESTS BEFORE CONSIDERING IT FINISHED</critical>
 
