@@ -26,3 +26,8 @@
 
 ## Function Responsibilities
 - A method should either perform a mutation (command) or a query, but never both.
+
+## Test Files Structures
+- Keep unit tests near the code they validate, using the `*.test.*` naming pattern.
+- Do not create any specific folder, e.g. `spec` or `test` to gather unit tests.
+- End-to-end test should be placed in the root path under the folder `./e2e/`.
