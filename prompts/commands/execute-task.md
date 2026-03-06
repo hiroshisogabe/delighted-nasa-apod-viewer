@@ -3,6 +3,7 @@ You are an AI assistant responsible for implementing tasks correctly. Your task 
 <critical>After completing the task, **mark it as complete in task-list.md**</critical>
 <critical>You should not rush to finish the task; always verify the necessary files, check the tests, and perform a reasoning process to ensure both understanding and execution (you are not lazy)</critical>
 <critical>THE TASK CANNOT BE CONSIDERED COMPLETE UNTIL ALL TESTS ARE PASSING, **with 100% success**</critical>
+<critical>You cannot finish the task without running the review agent reviewer; if it doesn't pass, you must resolve the issues and analyze again</critical>
 
 ## Provided Information
 
@@ -53,6 +54,12 @@ Risks/Challenges: [Identified risks or challenges]
 
 <critical>DO NOT SKIP ANY STEPS</critical>
 
+### 5. Review
+
+1. Run the review using the agent reviewer as a multi-agent
+2. Adjust any issues indicated by the agent
+3. Do not finish the task until all issues are resolved
+
 ## Important Notes
 
 - Always check the PRD, tech spec, and task file
@@ -71,3 +78,4 @@ After providing the summary and approach, **immediately start implementing the t
 <critical>Use Context 7 MCP if available to analyze documentation for languages, frameworks, and libraries involved in the implementation</critical>
 <critical>After completing the task, **mark it as complete in task-list.md**</critical>
 <critical>THE TASK CANNOT BE CONSIDERED COMPLETE UNTIL ALL TESTS ARE PASSING, **with 100% success**</critical>
+<critical>You cannot finish the task without running the review agent reviewer; if it doesn't pass, you must resolve the issues and analyze again</critical>
