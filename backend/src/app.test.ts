@@ -71,7 +71,7 @@ describe('APOD routes', () => {
     });
   });
 
-  it('returns normalized daily APOD payload', async () => {
+  it('returns normalized daily image APOD payload', async () => {
     const app = createApp();
     const mockFetch = setMockFetch([
       {
@@ -95,10 +95,42 @@ describe('APOD routes', () => {
       title: 'Daily image',
       date: '2026-03-01',
       explanation: 'Daily explanation',
-      imageUrl: 'https://example.com/daily.jpg',
+      mediaType: 'image',
+      mediaUrl: 'https://example.com/daily.jpg',
       copyright: 'NASA'
     });
     expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(new URL(mockFetch.mock.calls[0][0]).searchParams.get('thumbs')).toBe('true');
+  });
+
+  it('returns normalized daily direct-playable video APOD payload', async () => {
+    const app = createApp();
+    setMockFetch([
+      {
+        ok: true,
+        status: 200,
+        body: {
+          title: 'Daily video',
+          date: '2026-03-01',
+          explanation: 'Daily video explanation',
+          media_type: 'video',
+          url: 'https://example.com/daily-video.mp4',
+          thumbnail_url: 'https://example.com/daily-video.jpg'
+        }
+      }
+    ]);
+
+    const response = await request(app).get('/api/apod/daily');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      title: 'Daily video',
+      date: '2026-03-01',
+      explanation: 'Daily video explanation',
+      mediaType: 'video',
+      mediaUrl: 'https://example.com/daily-video.mp4',
+      thumbnailUrl: 'https://example.com/daily-video.jpg'
+    });
   });
 
   it('returns normalized random APOD payload', async () => {
@@ -126,9 +158,44 @@ describe('APOD routes', () => {
       title: 'Random image',
       date: '2026-03-02',
       explanation: 'Random explanation',
-      imageUrl: 'https://example.com/random.jpg'
+      mediaType: 'image',
+      mediaUrl: 'https://example.com/random.jpg'
     });
     expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(new URL(mockFetch.mock.calls[0][0]).searchParams.get('count')).toBe('1');
+    expect(new URL(mockFetch.mock.calls[0][0]).searchParams.get('thumbs')).toBe('true');
+  });
+
+  it('returns normalized random direct-playable video APOD payload', async () => {
+    const app = createApp();
+    setMockFetch([
+      {
+        ok: true,
+        status: 200,
+        body: [
+          {
+            title: 'Random video',
+            date: '2026-03-02',
+            explanation: 'Random video explanation',
+            media_type: 'video',
+            url: 'https://example.com/random-video.webm',
+            thumbnail_url: 'https://example.com/random-video.jpg'
+          }
+        ]
+      }
+    ]);
+
+    const response = await request(app).get('/api/apod/random');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      title: 'Random video',
+      date: '2026-03-02',
+      explanation: 'Random video explanation',
+      mediaType: 'video',
+      mediaUrl: 'https://example.com/random-video.webm',
+      thumbnailUrl: 'https://example.com/random-video.jpg'
+    });
   });
 
   it('returns RATE_LIMIT_REACHED when NASA responds with 429', async () => {
@@ -150,18 +217,18 @@ describe('APOD routes', () => {
     });
   });
 
-  it('returns TRY_AGAIN when payload is not image media', async () => {
+  it('returns MEDIA_TYPE_UNSUPPORTED for unknown APOD media type', async () => {
     const app = createApp();
     setMockFetch([
       {
         ok: true,
         status: 200,
         body: {
-          title: 'Video entry',
+          title: 'Audio entry',
           date: '2026-03-02',
           explanation: 'Not supported',
-          media_type: 'video',
-          url: 'https://example.com/video.mp4'
+          media_type: 'audio',
+          url: 'https://example.com/track.mp3'
         }
       }
     ]);
@@ -170,8 +237,33 @@ describe('APOD routes', () => {
 
     expect(response.status).toBe(502);
     expect(response.body).toEqual({
-      errorCode: 'TRY_AGAIN',
-      message: 'Try again'
+      errorCode: 'MEDIA_TYPE_UNSUPPORTED',
+      message: 'The APOD media type is not supported'
+    });
+  });
+
+  it('returns MEDIA_TYPE_UNSUPPORTED for non-direct-playable video URL', async () => {
+    const app = createApp();
+    setMockFetch([
+      {
+        ok: true,
+        status: 200,
+        body: {
+          title: 'Provider hosted video',
+          date: '2026-03-02',
+          explanation: 'Embedded page URL',
+          media_type: 'video',
+          url: 'https://www.youtube.com/watch?v=test'
+        }
+      }
+    ]);
+
+    const response = await request(app).get('/api/apod/daily');
+
+    expect(response.status).toBe(502);
+    expect(response.body).toEqual({
+      errorCode: 'MEDIA_TYPE_UNSUPPORTED',
+      message: 'The APOD media type is not supported'
     });
   });
 

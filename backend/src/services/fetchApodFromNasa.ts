@@ -3,6 +3,7 @@ import { NasaApiRequestError } from '../types/apod';
 const APOD_ENDPOINT_PATH = '/planetary/apod';
 const DEFAULT_NASA_BASE_URL = 'https://api.nasa.gov';
 const RANDOM_IMAGE_COUNT = 1;
+const APOD_VIDEO_THUMBNAILS_ENABLED = true;
 
 interface NasaHttpResponse {
   ok: boolean;
@@ -42,6 +43,7 @@ const createRequestUrl = (options: {
   apiKey: string;
   baseUrl: string;
   count?: number;
+  thumbs?: boolean;
 }): string => {
   const requestUrl = new URL(APOD_ENDPOINT_PATH, options.baseUrl);
 
@@ -51,6 +53,10 @@ const createRequestUrl = (options: {
     requestUrl.searchParams.set('count', options.count.toString());
   }
 
+  if (options.thumbs) {
+    requestUrl.searchParams.set('thumbs', 'true');
+  }
+
   return requestUrl.toString();
 };
 
@@ -58,13 +64,15 @@ const requestApodFromNasa = async (options: {
   apiKey: string;
   baseUrl?: string;
   count?: number;
+  thumbs?: boolean;
   httpClient?: NasaHttpClient;
 }): Promise<unknown> => {
   const baseUrl = options.baseUrl ?? DEFAULT_NASA_BASE_URL;
   const requestUrl = createRequestUrl({
     apiKey: options.apiKey,
     baseUrl,
-    count: options.count
+    count: options.count,
+    thumbs: options.thumbs
   });
   const httpClient = options.httpClient ?? createDefaultHttpClient();
 
@@ -93,7 +101,10 @@ const requestApodFromNasa = async (options: {
 export const fetchDailyApodFromNasa = async (
   options: FetchApodFromNasaOptions
 ): Promise<unknown> => {
-  return requestApodFromNasa(options);
+  return requestApodFromNasa({
+    ...options,
+    thumbs: APOD_VIDEO_THUMBNAILS_ENABLED
+  });
 };
 
 export const fetchRandomApodFromNasa = async (
@@ -103,6 +114,7 @@ export const fetchRandomApodFromNasa = async (
     apiKey: options.apiKey,
     baseUrl: options.baseUrl,
     httpClient: options.httpClient,
-    count: RANDOM_IMAGE_COUNT
+    count: RANDOM_IMAGE_COUNT,
+    thumbs: APOD_VIDEO_THUMBNAILS_ENABLED
   });
 };

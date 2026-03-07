@@ -1,5 +1,5 @@
 import { classifyNasaFailure } from './classifyNasaFailure';
-import { NasaApiRequestError } from '../types/apod';
+import { NasaApodUnsupportedMediaError, NasaApiRequestError } from '../types/apod';
 
 describe('classifyNasaFailure', () => {
   it('returns RATE_LIMIT_REACHED for NASA 429 failures', () => {
@@ -38,5 +38,13 @@ describe('classifyNasaFailure', () => {
     const classifiedError = classifyNasaFailure(new Error('Unexpected'));
 
     expect(classifiedError).toBe('TRY_AGAIN');
+  });
+
+  it('returns MEDIA_TYPE_UNSUPPORTED for unsupported media failures', () => {
+    const classifiedError = classifyNasaFailure(
+      new NasaApodUnsupportedMediaError('Unsupported APOD media')
+    );
+
+    expect(classifiedError).toBe('MEDIA_TYPE_UNSUPPORTED');
   });
 });
