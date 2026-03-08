@@ -28,7 +28,8 @@ test('creates deterministic daily and random success fixtures', () => {
     title: 'Blue Marble 2026',
     date: '2026-03-03',
     explanation: 'A clear Earth view from space.',
-    imageUrl: 'https://example.com/daily-apod.jpg',
+    mediaType: 'image',
+    mediaUrl: 'https://example.com/daily-apod.jpg',
     copyright: 'NASA'
   });
 
@@ -37,7 +38,8 @@ test('creates deterministic daily and random success fixtures', () => {
     title: 'Orion Nebula',
     date: '2026-02-24',
     explanation: 'A colorful nebula in deep space.',
-    imageUrl: 'https://example.com/random-apod.jpg'
+    mediaType: 'image',
+    mediaUrl: 'https://example.com/random-apod.jpg'
   });
 });
 

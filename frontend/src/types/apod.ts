@@ -1,12 +1,16 @@
-export interface ApodImageResult {
+export type ApodMediaType = 'image' | 'video';
+
+export interface ApodMediaResult {
   title: string;
   date: string;
   explanation: string;
-  imageUrl: string;
+  mediaType: ApodMediaType;
+  mediaUrl: string;
+  thumbnailUrl?: string;
   copyright?: string;
 }
 
-export type ApodErrorCode = 'RATE_LIMIT_REACHED' | 'TRY_AGAIN';
+export type ApodErrorCode = 'RATE_LIMIT_REACHED' | 'TRY_AGAIN' | 'MEDIA_TYPE_UNSUPPORTED';
 
 export interface ApodErrorResponse {
   errorCode: ApodErrorCode;
@@ -27,7 +31,7 @@ export interface ApodLoadingState {
 
 export interface ApodSuccessState {
   status: 'success';
-  data: ApodImageResult;
+  data: ApodMediaResult;
   error: null;
 }
 
@@ -40,12 +44,16 @@ export interface ApodErrorState {
 export type ApodUiState = ApodIdleState | ApodLoadingState | ApodSuccessState | ApodErrorState;
 
 export type ApodRequestResult =
-  | { type: 'success'; data: ApodImageResult }
+  | { type: 'success'; data: ApodMediaResult }
   | { type: 'error'; error: ApodErrorResponse };
 
 export const createApodErrorMessage = (errorCode: ApodErrorCode): string => {
   if (errorCode === 'RATE_LIMIT_REACHED') {
     return 'The rate limit was reached';
+  }
+
+  if (errorCode === 'MEDIA_TYPE_UNSUPPORTED') {
+    return 'The APOD media type is not supported';
   }
 
   return 'Try again';
@@ -74,7 +82,7 @@ export const createLoadingApodState = (): ApodLoadingState => {
   };
 };
 
-export const createSuccessApodState = (data: ApodImageResult): ApodSuccessState => {
+export const createSuccessApodState = (data: ApodMediaResult): ApodSuccessState => {
   return {
     status: 'success',
     data,

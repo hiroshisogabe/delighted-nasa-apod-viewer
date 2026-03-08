@@ -20,14 +20,15 @@ const createFetchImplementation = (options: MockFetchResponseOptions): typeof fe
 };
 
 describe('requestApod', () => {
-  it('requests and maps daily APOD success payload', async () => {
+  it('requests and maps daily image APOD success payload', async () => {
     const fetchImplementation = createFetchImplementation({
       ok: true,
       body: {
         title: 'Daily APOD',
         date: '2026-03-03',
         explanation: 'A daily image',
-        imageUrl: 'https://example.com/daily.jpg'
+        mediaType: 'image',
+        mediaUrl: 'https://example.com/daily.jpg'
       }
     });
 
@@ -39,20 +40,23 @@ describe('requestApod', () => {
         title: 'Daily APOD',
         date: '2026-03-03',
         explanation: 'A daily image',
-        imageUrl: 'https://example.com/daily.jpg'
+        mediaType: 'image',
+        mediaUrl: 'https://example.com/daily.jpg'
       }
     });
     expect(fetchImplementation).toHaveBeenCalledWith('/api/apod/daily');
   });
 
-  it('requests and maps random APOD success payload', async () => {
+  it('requests and maps random video APOD success payload', async () => {
     const fetchImplementation = createFetchImplementation({
       ok: true,
       body: {
         title: 'Random APOD',
         date: '2026-03-04',
-        explanation: 'A random image',
-        imageUrl: 'https://example.com/random.jpg',
+        explanation: 'A random video',
+        mediaType: 'video',
+        mediaUrl: 'https://example.com/random.mp4',
+        thumbnailUrl: 'https://example.com/random.jpg',
         copyright: 'NASA'
       }
     });
@@ -64,8 +68,10 @@ describe('requestApod', () => {
       data: {
         title: 'Random APOD',
         date: '2026-03-04',
-        explanation: 'A random image',
-        imageUrl: 'https://example.com/random.jpg',
+        explanation: 'A random video',
+        mediaType: 'video',
+        mediaUrl: 'https://example.com/random.mp4',
+        thumbnailUrl: 'https://example.com/random.jpg',
         copyright: 'NASA'
       }
     });
@@ -112,11 +118,54 @@ describe('requestApod', () => {
     });
   });
 
+  it('maps MEDIA_TYPE_UNSUPPORTED backend code to friendly error result', async () => {
+    const fetchImplementation = createFetchImplementation({
+      ok: false,
+      body: {
+        errorCode: 'MEDIA_TYPE_UNSUPPORTED',
+        message: 'ignored'
+      }
+    });
+
+    const result = await requestDailyApod({ fetchImplementation });
+
+    expect(result).toEqual({
+      type: 'error',
+      error: {
+        errorCode: 'MEDIA_TYPE_UNSUPPORTED',
+        message: 'The APOD media type is not supported'
+      }
+    });
+  });
+
   it('maps malformed success payloads to TRY_AGAIN', async () => {
     const fetchImplementation = createFetchImplementation({
       ok: true,
       body: {
         title: 'Missing fields'
+      }
+    });
+
+    const result = await requestDailyApod({ fetchImplementation });
+
+    expect(result).toEqual({
+      type: 'error',
+      error: {
+        errorCode: 'TRY_AGAIN',
+        message: 'Try again'
+      }
+    });
+  });
+
+  it('maps unknown media type success payloads to TRY_AGAIN', async () => {
+    const fetchImplementation = createFetchImplementation({
+      ok: true,
+      body: {
+        title: 'Unknown media APOD',
+        date: '2026-03-03',
+        explanation: 'Unknown media',
+        mediaType: 'audio',
+        mediaUrl: 'https://example.com/audio.mp3'
       }
     });
 

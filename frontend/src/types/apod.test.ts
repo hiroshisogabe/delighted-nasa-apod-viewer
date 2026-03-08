@@ -34,7 +34,8 @@ describe('apod state creators', () => {
       title: 'Daily APOD',
       date: '2026-03-03',
       explanation: 'A daily image',
-      imageUrl: 'https://example.com/image.jpg'
+      mediaType: 'image',
+      mediaUrl: 'https://example.com/image.jpg'
     });
 
     expect(state).toEqual({
@@ -43,7 +44,8 @@ describe('apod state creators', () => {
         title: 'Daily APOD',
         date: '2026-03-03',
         explanation: 'A daily image',
-        imageUrl: 'https://example.com/image.jpg'
+        mediaType: 'image',
+        mediaUrl: 'https://example.com/image.jpg'
       },
       error: null
     });
@@ -70,5 +72,9 @@ describe('apod error mapping', () => {
 
   it('maps TRY_AGAIN to exact message', () => {
     expect(createApodErrorMessage('TRY_AGAIN')).toBe('Try again');
+  });
+
+  it('maps MEDIA_TYPE_UNSUPPORTED to exact message', () => {
+    expect(createApodErrorMessage('MEDIA_TYPE_UNSUPPORTED')).toBe('The APOD media type is not supported');
   });
 });

@@ -1,12 +1,15 @@
 import { Page, Route } from '@playwright/test';
 
-export type ApodErrorCode = 'RATE_LIMIT_REACHED' | 'TRY_AGAIN';
+export type ApodErrorCode = 'RATE_LIMIT_REACHED' | 'TRY_AGAIN' | 'MEDIA_TYPE_UNSUPPORTED';
+export type ApodMediaType = 'image' | 'video';
 
 export interface ApodSuccessBody {
   title: string;
   date: string;
   explanation: string;
-  imageUrl: string;
+  mediaType: ApodMediaType;
+  mediaUrl: string;
+  thumbnailUrl?: string;
   copyright?: string;
 }
 
@@ -55,7 +58,8 @@ export const createDailySuccessResponse = (): ApodRouteResponse => {
       title: 'Blue Marble 2026',
       date: '2026-03-03',
       explanation: 'A clear Earth view from space.',
-      imageUrl: 'https://example.com/daily-apod.jpg',
+      mediaType: 'image',
+      mediaUrl: 'https://example.com/daily-apod.jpg',
       copyright: 'NASA'
     }
   };
@@ -68,7 +72,8 @@ export const createRandomSuccessResponse = (): ApodRouteResponse => {
       title: 'Orion Nebula',
       date: '2026-02-24',
       explanation: 'A colorful nebula in deep space.',
-      imageUrl: 'https://example.com/random-apod.jpg'
+      mediaType: 'image',
+      mediaUrl: 'https://example.com/random-apod.jpg'
     }
   };
 };
