@@ -51,7 +51,7 @@ export const mockApodRoutes = async (page: Page, routeSet: ApodRouteSet): Promis
   });
 };
 
-export const createDailySuccessResponse = (): ApodRouteResponse => {
+export const createDailyImageSuccessResponse = (): ApodRouteResponse => {
   return {
     status: 200,
     body: {
@@ -65,7 +65,7 @@ export const createDailySuccessResponse = (): ApodRouteResponse => {
   };
 };
 
-export const createRandomSuccessResponse = (): ApodRouteResponse => {
+export const createRandomImageSuccessResponse = (): ApodRouteResponse => {
   return {
     status: 200,
     body: {
@@ -74,6 +74,48 @@ export const createRandomSuccessResponse = (): ApodRouteResponse => {
       explanation: 'A colorful nebula in deep space.',
       mediaType: 'image',
       mediaUrl: 'https://example.com/random-apod.jpg'
+    }
+  };
+};
+
+export const createDailyVideoSuccessResponse = (): ApodRouteResponse => {
+  return {
+    status: 200,
+    body: {
+      title: 'Moonrise Over Earth',
+      date: '2026-03-04',
+      explanation: 'A cinematic Earthrise captured from lunar orbit.',
+      mediaType: 'video',
+      mediaUrl: 'https://example.com/daily-apod.mp4',
+      thumbnailUrl: 'https://example.com/daily-apod.jpg',
+      copyright: 'NASA'
+    }
+  };
+};
+
+export const createRandomVideoSuccessResponse = (): ApodRouteResponse => {
+  return {
+    status: 200,
+    body: {
+      title: 'Solar Corona Stream',
+      date: '2026-02-25',
+      explanation: 'Fast plasma structures captured in coronagraph imagery.',
+      mediaType: 'video',
+      mediaUrl: 'https://example.com/random-apod.webm',
+      thumbnailUrl: 'https://example.com/random-apod.jpg'
+    }
+  };
+};
+
+export const createBrokenVideoSuccessResponse = (): ApodRouteResponse => {
+  return {
+    status: 200,
+    body: {
+      title: 'Corrupted Signal',
+      date: '2026-03-02',
+      explanation: 'This clip is intentionally unavailable for fallback validation.',
+      mediaType: 'video',
+      mediaUrl: 'https://example.com/broken-video.mp4'
     }
   };
 };
@@ -94,6 +136,16 @@ export const createTryAgainFailureResponse = (): ApodRouteResponse => {
     body: {
       errorCode: 'TRY_AGAIN',
       message: 'Try again'
+    }
+  };
+};
+
+export const createUnsupportedMediaFailureResponse = (): ApodRouteResponse => {
+  return {
+    status: 502,
+    body: {
+      errorCode: 'MEDIA_TYPE_UNSUPPORTED',
+      message: 'The APOD media type is not supported'
     }
   };
 };
