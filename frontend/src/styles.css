@@ -109,6 +109,32 @@ body {
   border: 1px solid #aac6d9;
 }
 
+.apod-media {
+  width: 100%;
+}
+
+.apod-video {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #aac6d9;
+  background: #061019;
+}
+
+.apod-video:focus-visible {
+  outline: 3px solid #ffb703;
+  outline-offset: 2px;
+}
+
+.apod-media-error {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #cf7e86;
+  background: #fff1f3;
+  color: #8a1f2d;
+  font-weight: 700;
+}
+
 .apod-explanation {
   margin: 0;
   line-height: 1.5;

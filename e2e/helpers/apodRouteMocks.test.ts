@@ -1,10 +1,14 @@
 import { expect, Page, test } from '@playwright/test';
 import {
   ApodRouteSet,
-  createDailySuccessResponse,
-  createRandomSuccessResponse,
+  createBrokenVideoSuccessResponse,
+  createDailyImageSuccessResponse,
+  createDailyVideoSuccessResponse,
+  createRandomImageSuccessResponse,
+  createRandomVideoSuccessResponse,
   createRateLimitFailureResponse,
   createTryAgainFailureResponse,
+  createUnsupportedMediaFailureResponse,
   mockApodRoutes
 } from './apodRouteMocks';
 
@@ -19,31 +23,67 @@ interface CapturedRouteRegistration {
   handler: (route: { fulfill: (response: CapturedFulfillResponse) => Promise<void> }) => Promise<void>;
 }
 
-test('creates deterministic daily and random success fixtures', () => {
-  const dailyResponse = createDailySuccessResponse();
-  const randomResponse = createRandomSuccessResponse();
+test('creates deterministic image and video success fixtures', () => {
+  const dailyImageResponse = createDailyImageSuccessResponse();
+  const randomImageResponse = createRandomImageSuccessResponse();
+  const dailyVideoResponse = createDailyVideoSuccessResponse();
+  const randomVideoResponse = createRandomVideoSuccessResponse();
+  const brokenVideoResponse = createBrokenVideoSuccessResponse();
 
-  expect(dailyResponse.status).toBe(200);
-  expect(dailyResponse.body).toEqual({
+  expect(dailyImageResponse.status).toBe(200);
+  expect(dailyImageResponse.body).toEqual({
     title: 'Blue Marble 2026',
     date: '2026-03-03',
     explanation: 'A clear Earth view from space.',
-    imageUrl: 'https://example.com/daily-apod.jpg',
+    mediaType: 'image',
+    mediaUrl: 'https://example.com/daily-apod.jpg',
     copyright: 'NASA'
   });
 
-  expect(randomResponse.status).toBe(200);
-  expect(randomResponse.body).toEqual({
+  expect(randomImageResponse.status).toBe(200);
+  expect(randomImageResponse.body).toEqual({
     title: 'Orion Nebula',
     date: '2026-02-24',
     explanation: 'A colorful nebula in deep space.',
-    imageUrl: 'https://example.com/random-apod.jpg'
+    mediaType: 'image',
+    mediaUrl: 'https://example.com/random-apod.jpg'
+  });
+
+  expect(dailyVideoResponse.status).toBe(200);
+  expect(dailyVideoResponse.body).toEqual({
+    title: 'Moonrise Over Earth',
+    date: '2026-03-04',
+    explanation: 'A cinematic Earthrise captured from lunar orbit.',
+    mediaType: 'video',
+    mediaUrl: 'https://example.com/daily-apod.mp4',
+    thumbnailUrl: 'https://example.com/daily-apod.jpg',
+    copyright: 'NASA'
+  });
+
+  expect(randomVideoResponse.status).toBe(200);
+  expect(randomVideoResponse.body).toEqual({
+    title: 'Solar Corona Stream',
+    date: '2026-02-25',
+    explanation: 'Fast plasma structures captured in coronagraph imagery.',
+    mediaType: 'video',
+    mediaUrl: 'https://example.com/random-apod.webm',
+    thumbnailUrl: 'https://example.com/random-apod.jpg'
+  });
+
+  expect(brokenVideoResponse.status).toBe(200);
+  expect(brokenVideoResponse.body).toEqual({
+    title: 'Corrupted Signal',
+    date: '2026-03-02',
+    explanation: 'This clip is intentionally unavailable for fallback validation.',
+    mediaType: 'video',
+    mediaUrl: 'https://example.com/broken-video.mp4'
   });
 });
 
 test('creates deterministic failure fixtures', () => {
   const rateLimitResponse = createRateLimitFailureResponse();
   const tryAgainResponse = createTryAgainFailureResponse();
+  const unsupportedMediaResponse = createUnsupportedMediaFailureResponse();
 
   expect(rateLimitResponse).toEqual({
     status: 502,
@@ -60,12 +100,20 @@ test('creates deterministic failure fixtures', () => {
       message: 'Try again'
     }
   });
+
+  expect(unsupportedMediaResponse).toEqual({
+    status: 502,
+    body: {
+      errorCode: 'MEDIA_TYPE_UNSUPPORTED',
+      message: 'The APOD media type is not supported'
+    }
+  });
 });
 
 test('registers and fulfills both APOD routes', async () => {
   const registrations: CapturedRouteRegistration[] = [];
   const routeSet: ApodRouteSet = {
-    daily: createDailySuccessResponse(),
+    daily: createDailyImageSuccessResponse(),
     random: createTryAgainFailureResponse()
   };
   const fakePage = {

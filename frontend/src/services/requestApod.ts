@@ -1,6 +1,6 @@
 import {
   ApodErrorCode,
-  ApodImageResult,
+  ApodMediaResult,
   ApodRequestResult,
   createApodErrorResponse
 } from '../types/apod';
@@ -37,6 +37,10 @@ const readErrorCode = (payload: unknown): ApodErrorCode => {
     return 'RATE_LIMIT_REACHED';
   }
 
+  if (payload.errorCode === 'MEDIA_TYPE_UNSUPPORTED') {
+    return 'MEDIA_TYPE_UNSUPPORTED';
+  }
+
   return 'TRY_AGAIN';
 };
 
@@ -55,19 +59,30 @@ const mapSuccessResult = (payload: unknown): ApodRequestResult => {
   const title = readRequiredString(payload, 'title');
   const date = readRequiredString(payload, 'date');
   const explanation = readRequiredString(payload, 'explanation');
-  const imageUrl = readRequiredString(payload, 'imageUrl');
+  const mediaUrl = readRequiredString(payload, 'mediaUrl');
+  const mediaType = readRequiredString(payload, 'mediaType');
 
-  if (title === null || date === null || explanation === null || imageUrl === null) {
+  if (title === null || date === null || explanation === null || mediaUrl === null) {
     return mapErrorResult({});
   }
 
-  const result: ApodImageResult = {
+  if (mediaType !== 'image' && mediaType !== 'video') {
+    return mapErrorResult({});
+  }
+
+  const result: ApodMediaResult = {
     title,
     date,
     explanation,
-    imageUrl
+    mediaType,
+    mediaUrl
   };
+  const thumbnailUrlValue = payload.thumbnailUrl;
   const copyrightValue = payload.copyright;
+
+  if (typeof thumbnailUrlValue === 'string' && thumbnailUrlValue.trim().length > 0) {
+    result.thumbnailUrl = thumbnailUrlValue;
+  }
 
   if (typeof copyrightValue === 'string' && copyrightValue.trim().length > 0) {
     result.copyright = copyrightValue;

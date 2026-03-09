@@ -1,0 +1,10 @@
+[features]
+multi_agent = true
+
+[agents]
+max_threads = 4
+max_depth = 1
+
+[agents.reviewer]
+description = "Execution-focused code reviewer: validate branch changes against project rules, task specs, and tests, then produce an approval decision with evidence."
+config_file = "agents/reviewer.toml"

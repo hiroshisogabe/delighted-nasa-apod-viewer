@@ -1,0 +1,3 @@
+In the created application, which currently already has a frontend implemented in the ./frontend and a backend int the ./backend folders, it's prepared to render only media_type=images from the APOD API.
+
+We want to also render and play videos as media_type, avoiding this scenario as an "error" as it was previously stablished. Therefore the frontend and backend should agree on a contract and apply all the required changes to achieve the goal: render images and videos from the APOD API.

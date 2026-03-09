@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { classifyNasaFailure } from '../services/classifyNasaFailure';
 import { fetchDailyApodFromNasa } from '../services/fetchApodFromNasa';
-import { mapDailyApodImageResponse } from '../services/mapApodImageResponse';
+import { mapDailyApodMediaResponse } from '../services/mapApodMediaResponse';
 import { ApodErrorCode } from '../types/apod';
 
 const SUCCESS_STATUS = 200;
@@ -10,6 +10,10 @@ const UPSTREAM_FAILURE_STATUS = 502;
 const createFailureMessage = (errorCode: ApodErrorCode): string => {
   if (errorCode === 'RATE_LIMIT_REACHED') {
     return 'The rate limit was reached';
+  }
+
+  if (errorCode === 'MEDIA_TYPE_UNSUPPORTED') {
+    return 'The APOD media type is not supported';
   }
 
   return 'Try again';
@@ -31,7 +35,7 @@ export const getDailyApod = async (_req: Request, res: Response): Promise<void> 
     const nasaPayload = await fetchDailyApodFromNasa({
       apiKey: readNasaApiKey()
     });
-    const mappedPayload = mapDailyApodImageResponse(nasaPayload);
+    const mappedPayload = mapDailyApodMediaResponse(nasaPayload);
 
     res.status(SUCCESS_STATUS).json(mappedPayload);
     return;

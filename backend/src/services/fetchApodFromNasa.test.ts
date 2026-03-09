@@ -18,7 +18,7 @@ const createMockHttpClient = (response: MockHttpResponse) => {
 };
 
 describe('fetchApodFromNasa mode behavior', () => {
-  it('builds a daily request URL without count parameter', async () => {
+  it('builds a daily request URL without count parameter and with thumbs=true', async () => {
     const mockHttpClient = createMockHttpClient({
       ok: true,
       status: 200,
@@ -36,9 +36,10 @@ describe('fetchApodFromNasa mode behavior', () => {
     expect(requestedUrl.pathname).toBe('/planetary/apod');
     expect(requestedUrl.searchParams.get('api_key')).toBe('demo-key');
     expect(requestedUrl.searchParams.get('count')).toBeNull();
+    expect(requestedUrl.searchParams.get('thumbs')).toBe('true');
   });
 
-  it('builds a random request URL with count=1', async () => {
+  it('builds a random request URL with count=1 and thumbs=true', async () => {
     const mockHttpClient = createMockHttpClient({
       ok: true,
       status: 200,
@@ -56,6 +57,7 @@ describe('fetchApodFromNasa mode behavior', () => {
     expect(requestedUrl.pathname).toBe('/planetary/apod');
     expect(requestedUrl.searchParams.get('api_key')).toBe('demo-key');
     expect(requestedUrl.searchParams.get('count')).toBe('1');
+    expect(requestedUrl.searchParams.get('thumbs')).toBe('true');
   });
 });
 
